@@ -1,34 +1,32 @@
 package api
 
-import "fmt"
+import (
+	"math"
+)
 
 type Point2F struct {
-	x float64
-	y float64
+	X float64
+	Y float64
 }
 
 type Rect2F struct {
-	topleft Point2F
-	width   float64
-	height  float64
+	Topleft Point2F
+	Width   float64
+	Height  float64
 }
 
 type RectOption interface {
-	Contain() bool
-	Intersect() bool
+	Intersect() bool //两个矩阵是否相交  包括包含
 }
 
 type RectHandler struct {
-	srcRect Rect2F
-	dstRect Rect2F
-}
-
-func (rect *RectHandler) Contain() bool {
-
-	return false
+	DetectRect Rect2F //用于检测的框
+	TargetRect Rect2F //目标的框
 }
 
 func (rect *RectHandler) Intersect() bool {
-	fmt.Println("lxy hello")
+	if (math.Abs((rect.TargetRect.Topleft.X+rect.TargetRect.Width/2)-(rect.DetectRect.Topleft.X+rect.DetectRect.Width/2)) <= (rect.DetectRect.Width+rect.TargetRect.Width)/2) && (math.Abs((rect.TargetRect.Topleft.Y-rect.TargetRect.Height/2)-(rect.DetectRect.Topleft.Y-rect.DetectRect.Height/2)) <= (rect.DetectRect.Height+rect.TargetRect.Height)/2) {
+		return true
+	}
 	return false
 }
